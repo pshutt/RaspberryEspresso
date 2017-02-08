@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Socket.io</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="nouislider.min.css" rel="stylesheet">
+    </head>
+ 
+    <body style="background-color:#37474f ;">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html">Raspberry Espresso</a>
+    </div>
+    <ul class="nav navbar-nav">
+    <li><a href="index.html">Home</a></li>
+   <li class="active"><a href="brew.html">Brew</a></li>
+   <li><a href="#">Stats</a></li>
+   <li><a href="#">Settings</a></li>
+   <li><a href="#">Other</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+
+      <label id = "label1" class="checkbox-inline" style="color:white ;">
+         <input id="toggle" type="checkbox" data-toggle="toggle" > Brew
+    </label>
+
+    </div>
+  <div class="col-sm-4">
+    <h2 id="header" style="color:white ;"></h2>
+  </div>
+  </div>
+</div>
+
+
+
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+       <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <script src="https://github.com/seiyria/bootstrap-slider/tree/master/distbootstrap-slider.min.js"></script>
+        <script>
+
+            var socket = io.connect('http://192.168.1.184:3000');
+            socket.on('change_header', function(data) {
+                document.getElementById('header').innerHTML ="Boiler Temperature: " + data.header;
+            });
+
+            $(document).ready(function() {
+            $('#toggle').change(function() {
+            if($(this).is(":checked")) {
+              socket.emit('message1', '1');
+            $(this).attr("checked", returnVal);}
+              socket.emit('message0', '0');
+              });
+            });
+
+      
+
+        </script>
+    </body>
+</html>
+
+
+
+

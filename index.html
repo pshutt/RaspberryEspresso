@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Socket.io</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+ 
+    <body style="background-color:#37474f ;">
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html">Raspberry Espresso</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+   <li><a href="brew.html">Brew</a></li>
+   <li><a href="#">Stats</a></li>
+   <li><a href="#">Settings</a></li>
+   <li><a href="#">Other</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script>
+            var socket = io.connect('http://192.168.1.184:3000');
+
+        </script>
+    </body>
+</html>
+
+
+
+</style>
