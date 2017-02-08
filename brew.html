@@ -4,7 +4,15 @@
         <meta charset="utf-8" />
         <title>Socket.io</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="nouislider.min.css" rel="stylesheet">
+        <!-- <link href="nouislider.min.css" rel="stylesheet"> -->
+        <link href="toggle-switch.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     </head>
  
     <body style="background-color:#37474f ;">
@@ -12,30 +20,124 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="index.html">Raspberry Espresso</a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Raspberry Espresso</a>
     </div>
-    <ul class="nav navbar-nav">
-    <li><a href="index.html">Home</a></li>
-   <li class="active"><a href="brew.html">Brew</a></li>
-   <li><a href="#">Stats</a></li>
-   <li><a href="#">Settings</a></li>
-   <li><a href="#">Other</a></li>
-    </ul>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li class="active"><a href="brew.html">Brew</a></li>
+        <li><a href="#">Stats</a></li>
+        <li><a href="#">Settings</a></li>
+        <li><a href="#">Other</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
   </div>
 </nav>
 
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-md-6">
+<!-- Brew on/off button -->
+      <h3 id="h3Brew">Brew</h3>
+      <input type="checkbox" data-toggle="toggle" data-on="Enabled" data-off="Disabled" id="toggle">
 
-      <label id = "label1" class="checkbox-inline" style="color:white ;">
-         <input id="toggle" type="checkbox" data-toggle="toggle" > Brew
-    </label>
-
+      <script>
+      $(function() {
+      $('#toggle-two').bootstrapToggle({
+        on: 'ON',
+        off: 'OFF'
+      });
+      })
+</script>
+<!-- breww on/off end -->
     </div>
-  <div class="col-sm-4">
+  <div class="col-md-6">
     <h2 id="header" style="color:white ;"></h2>
+
+    <!-- Button for Off, pre-infusion, boil -->
+    <div class="switch-toggle switch-3 switch-candy">
+    <input id="on" name="state-d" type="radio" checked="checked">
+    <label for="on" onclick="">Off</label>
+
+    <input id="na" name="state-d" type="radio">
+        <label for="na" onclick="">Pre-Infusion</label>
+
+    <input id="off" name="state-d" type="radio">
+    <label for="off" onclick="">Boiling</label>
+    <a></a>
+    </div>
+    <!-- end -->
+
+    <!-- Timer -->
+<div id="timer">
+  <h3 class="timer">Timer</h3>
+  <!-- <span class="timer" id="hours">00:</span> -->
+  <!-- <span class="timer" id="mins">00:</span> -->
+  <span class="timer" id="seconds">00</span>
+  <span class="timer"> sec </span>  
+</div>
+<div id="controls">
+  <button id="start">Start</button>
+<button id="stop">Stop</button>
+<button id="reset">Reset</button>
+</div>
+
+<script>
+var hours =0;
+var mins =0;
+var seconds =0;
+
+$('#start').click(function(){
+      startTimer();
+});
+
+$('#stop').click(function(){
+      clearTimeout(timex);
+});
+
+$('#reset').click(function(){
+      hours =0;      mins =0;      seconds =0;
+  $('#hours','#mins').html('00:');
+  $('#seconds').html('00');
+});
+
+function startTimer(){
+  timex = setTimeout(function(){
+      seconds++;
+    if(seconds >59){seconds=0;mins++;
+       if(mins>59) {
+       mins=0;hours++;
+         if(hours <10) {$("#hours").text('0'+hours+':')} else $("#hours").text(hours+':');
+                       }
+                       
+    if(mins<10){                     
+      $("#mins").text('0'+mins+':');}       
+       else $("#mins").text(mins+':');
+                   }    
+    if(seconds <10) {
+      $("#seconds").text('0'+seconds);} else {
+      $("#seconds").text(seconds);
+      }
+     
+    
+      startTimer();
+  },1000);
+}
+    
+  
+</script>
+    <!-- timer end -->
+
   </div>
   </div>
 </div>
@@ -46,8 +148,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="/socket.io/socket.io.js"></script>
         <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-       <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-  <script src="https://github.com/seiyria/bootstrap-slider/tree/master/distbootstrap-slider.min.js"></script>
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        <!-- // <script src="https://github.com/seiyria/bootstrap-slider/tree/master/distbootstrap-slider.min.js"></script> -->
         <script>
 
             var socket = io.connect('http://192.168.1.184:3000');

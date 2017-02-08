@@ -1,0 +1,24 @@
+#h3Brew {
+	color : white;
+}
+
+/*Timer css*/
+#timer {
+  font-size:80px;
+  margin:0 auto;
+  width:1000px;
+}
+
+#controls {
+  margin:0 auto;
+  width:600px;    
+}
+
+#controls button {
+  font-size:15px;
+}
+
+.timer {
+	color : white;
+
+}
