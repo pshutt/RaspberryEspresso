@@ -12,17 +12,19 @@ app.get('/', function(req, res,next) {
 //serial
 
 var SerialPort = require('serialport');
-/*
+
 var port = new SerialPort('/dev/ttyACM0', function (err) {
   if (err) {
     return console.log('Error: ', err.message);
   }
   parser: SerialPort.parsers.readline('\n');
 });
-*/
+/*
 var port = new SerialPort('/dev/ttyACM0', {
   parser: SerialPort.parsers.readline('\n')
 });
+*/
+
 
 port.on('data', function (data) {
   
@@ -34,8 +36,11 @@ port.on('data', function (data) {
 var onoff = require('onoff'); //#A
 var Gpio = onoff.Gpio
 
-  led1 = new Gpio(20, 'out') //#B
-  led2 = new Gpio(21, 'out')//#B
+	level = new Gpio(5, 'in', 'both')
+	group = new Gpio(6, 'out') 
+ 	pump = new Gpio(13, 'out')
+ 	element = new Gpio(19, 'out') 
+ 	fill = new Gpio(26, 'out')
 
 brewOff()
 
@@ -56,14 +61,81 @@ var io = require('socket.io').listen(server);
 server.listen(3000);
 
 //functions
+level.watch(function(err,waterLevel){
+	if(waterLevel == 1){
+		//do nothing
+		fillBoilerOff();
+	} else {
+		fillBoilerOn();
+		//fill boiler
+	}
+});
+
 
 function brewOn(){
-	led1.writeSync(1); //#G
-	led2.writeSync(1); //#G
+	groupOn();
+	pumpOn();
 }
 function brewOff(){
-	led1.writeSync(0); //#G
-	led2.writeSync(0); //#G
+	groupOff();
+	pumpOff();
 }
+
+function preOn(){
+	groupOn();
+}
+function preOff(){
+	groupOff()
+}
+
+function fillBoilerOn(){
+	fillOn();
+	pumpOn();
+}
+function fillBoilerOff(){
+	fillOff();
+	pumpOff();
+}
+
+
+
+
+
+function groupOn(){
+	group.writeSync(1);
+}
+
+function groupOff(){
+	group.writeSync(0);
+}
+
+function pumpOn(){
+	pump.writeSync(1);
+}
+
+function brewOff(){
+	pump.writeSync(0);
+}
+
+function elementOn(){
+	element.writeSync(1);
+}
+
+function elementOff() {
+	element.writeSync(0);
+}
+
+function fillOn(){
+	fill.writeSync(1);
+}
+
+function fillOff(){
+	fill.writeSync(0);
+}
+
+
+
+
+
 
 
